@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>API Client</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/site.js"></script>
+    </head>
+<body> 
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>imie</th>
+                            <th>nazwisko</th>
+							<th>data urodzenia</th>
+                            <th>edytuj</th>
+                            <th>usuń</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <div class="jumbotron">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button id="add" class="btn btn-block btn-success">Dodaj</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button id="reload" class="btn btn-block btn-info">Odśwież</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="data-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Wprowadź dane </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" id="group-id">
+                        <label for="input-id">ID:</label>
+                        <input type="text" class="form-control disabled" id="input-id" />
+                    </div>
+                    <div class="form-group">
+                        <label for="input-first-name">Imię:</label>
+                        <input type="text" class="form-control" id="input-first-name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="input-last-name">Nazwisko:</label>
+                        <input type="text" class="form-control" id="input-last-name" />
+                    </div>
+					<div class="form-group">
+                        <label for="input-birth-date">Data urodzenia:</label>
+                        <input type="text" class="form-control" id="input-birth-date" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    <button id="data-modal-accept" class="btn btn-default">Wyślij</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="wait-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Chwila... </h4>
+                </div>
+                <div class="modal-body">
+                    <h3>Proszę czekać...</h3>
+                    <p id="wait-modal-info">
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="delete-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Potwierdzenie </h4>
+                </div>
+                <div class="modal-body">
+                    <p id="wait-modal-info">
+                        Czy na pewno chcesz usunąć element o id <span id="delete-modal-id"></span>?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                    <button id="delete-modal-accept" class="btn btn-default">Usuń</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
