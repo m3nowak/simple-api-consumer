@@ -1,4 +1,4 @@
-let defaultUrl = "https://test004mikolaj.azurewebsites.net/api/Cats/";
+let defaultUrl = "https://<nazwa zasobu>.azurewebsites.net/api/Cats/";
 let maleStr = "Kocur";
 let femaleStr = "Kotka";
 
