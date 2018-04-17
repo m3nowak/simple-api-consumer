@@ -2,11 +2,13 @@ let defaultUrl = "https://<nazwa zasobu>.azurewebsites.net/api/Cats/";
 let maleStr = "Kocur";
 let femaleStr = "Kotka";
 
+// Pozyskanie adresu API
 function getGlobalUrl() {
-	return defaultUrl; 
+	return defaultUrl;
 }
 
-function checkIfValidDate(potentialDate){
+//Sprawdzanie poprawności formatu daty
+function checkIfValidDate(potentialDate) {
 	var IsoDateRe = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
 
 	var matches = IsoDateRe.exec(potentialDate);
@@ -16,35 +18,35 @@ function checkIfValidDate(potentialDate){
 	var composedDate = new Date(matches[1], (matches[2] - 1), matches[3]);
 
 	return ((composedDate.getMonth() == (matches[2] - 1)) &&
-		  (composedDate.getDate() == matches[3]) &&
-		  (composedDate.getFullYear() == matches[1]));
+		(composedDate.getDate() == matches[3]) &&
+		(composedDate.getFullYear() == matches[1]));
 }
-
-function validateInputFields(){
+//Funkcja walidująca pola w modalu do edycji/dodawania rekordów
+function validateInputFields() {
 	let fname = $("#input-first-name").val();
 	let color = $("#input-color").val();
 	let bdate = $("#input-birth-date").val();
 	let anychecked = $("#input-sex-male").is(':checked') || $("#input-sex-female").is(':checked');
-	
-	if(fname == ""){
+
+	if (fname == "") {
 		alert("Imię nie może być puste!");
 		return false;
 	}
-	if(color == ""){
+	if (color == "") {
 		alert("Kolor nie może być pusty!");
 		return false;
 	}
-	if(!checkIfValidDate(bdate)){
+	if (!checkIfValidDate(bdate)) {
 		alert("Zły format daty");
 		return false;
 	}
-	if(!anychecked){
+	if (!anychecked) {
 		alert("Należy wybrać płeć");
 		return false;
 	}
 	return true;
 }
-
+//Funkcja odpowiadająca za odświeżenie tabeli z rekordami
 function reload() {
 	$("#wait-modal").modal("show");
 	$("#wait-modal-info").text("Odświeżanie tabeli");
@@ -58,7 +60,7 @@ function reload() {
 			tbody.empty();
 			for (var i = 0; i < data.length; i++) {
 				let sexText = femaleStr;
-				if(data[i]['Sex']) sexText = maleStr;
+				if (data[i]['Sex']) sexText = maleStr;
 				tbody.append(`<tr>
 						<td class="id">${data[i]['Id']}</td>
 						<td class="xfirstname">${data[i]['Name']}</td>
@@ -75,14 +77,14 @@ function reload() {
 		}
 	});
 }
-
+//Funkcja wyświetlająca modal dodawania nowego wpisu
 function addModal() {
 	$("#input-id").val("");
 
 	$("#group-id").hide();
 	$("#data-modal").modal("show");
 }
-
+//Funkcja wyświetlająca modal edycji istniejącego wpisu
 function editModal(ctx) {
 	let jqctx = $(ctx);
 	let id = jqctx.parents("tr").children("td.id").text();
@@ -91,11 +93,11 @@ function editModal(ctx) {
 	$("#input-first-name").val(jqctx.parents("tr").children("td.xfirstname").text());
 	$("#input-color").val(jqctx.parents("tr").children("td.xcolor").text());
 	sexStr = jqctx.parents("tr").children("td.xsex").text();
-	if(sexStr == maleStr){
+	if (sexStr == maleStr) {
 		$("#input-sex-male").prop("checked", true);
 		$("#input-sex-female").prop("checked", false);
 	}
-	else{
+	else {
 		$("#input-sex-female").prop("checked", true);
 		$("#input-sex-male").prop("checked", false);
 	}
@@ -104,7 +106,7 @@ function editModal(ctx) {
 	$("#data-modal").modal("show");
 
 }
-
+//Funkcja otwierająca modal z potwierdzeniem usunięcia
 function deleteModal(ctx) {
 	let jqctx = $(ctx);
 	let id = jqctx.parents("tr").children("td.id").text();
@@ -112,7 +114,7 @@ function deleteModal(ctx) {
 	$("#delete-modal").modal("show");
 
 }
-
+//Funkcja wywoływana przy usuwaniu rekordu
 function deleteModalSend() {
 	let idRem = $("#delete-modal-id").text();
 	$("#wait-modal-info").text("Usuwanie pozycji...");
@@ -128,9 +130,9 @@ function deleteModalSend() {
 		dataType: 'json',
 	});
 }
-
+//Funkcja wywoływana przy dodawaniu lub usuwaniu rekordu
 function dataModalSend() {
-	if(validateInputFields()){
+	if (validateInputFields()) {
 		let id = $("#input-id").val();
 		let firstName = $("#input-first-name").val();
 		let color = $("#input-color").val();
@@ -149,8 +151,8 @@ function dataModalSend() {
 			reqType = 'PUT';
 			reqObj.Id = id;
 		}
-		else{
-			
+		else {
+
 		}
 		$("#wait-modal-info").text("Dodawanie/Edycja pozycji...");
 		$("#data-modal").modal("hide");
@@ -167,7 +169,7 @@ function dataModalSend() {
 		});
 	}
 }
-
+//Polecenie wykonywane po załadowaniu się dokumentu HTML
 $(document).ready(function () {
 	$("#reload").click(reload);
 	$("#data-modal-accept").click(dataModalSend);
