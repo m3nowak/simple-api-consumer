@@ -1,4 +1,6 @@
-let defaultUrl = "https://test002mikolaj.azurewebsites.net/api/Students/";
+let defaultUrl = "https://test004mikolaj.azurewebsites.net/api/Cats/";
+let maleStr = "Kocur";
+let femaleStr = "Kotka";
 
 function getGlobalUrl() {
 	return defaultUrl; 
@@ -20,44 +22,27 @@ function checkIfValidDate(potentialDate){
 
 function validateInputFields(){
 	let fname = $("#input-first-name").val();
-	let lname = $("#input-last-name").val();
+	let color = $("#input-color").val();
 	let bdate = $("#input-birth-date").val();
+	let anychecked = $("#input-sex-male").is(':checked') || $("#input-sex-female").is(':checked');
+	
 	if(fname == ""){
 		alert("Imię nie może być puste!");
 		return false;
 	}
-	if(lname == ""){
-		alert("Nazwisko nie może być puste!");
+	if(color == ""){
+		alert("Kolor nie może być pusty!");
 		return false;
 	}
 	if(!checkIfValidDate(bdate)){
 		alert("Zły format daty");
 		return false;
 	}
-	return true;
-}
-
-function editfin(ctx) {
-	if(validateInputFields()){
-		let row = $(ctx).parents("tr");
-		let idRem = row.children("td.id").text();
-		$.ajax({
-			type: 'PUT',
-			url: getGlobalUrl() + idRem,
-			contentType: "application/json",
-			dataType: 'json',
-			data: JSON.stringify({
-				FirstName: row.children("td.xfirstname").children("input").val(),
-				LastName: row.children("td.xlastname").children("input").val(),
-				BirthDate: row.children("td.xbirthdate").children("input").val(),
-			}),
-			success: function (data) {
-				//alert("zmieniono!");
-				reload();
-			}
-		});
+	if(!anychecked){
+		alert("Należy wybrać płeć");
+		return false;
 	}
-	
+	return true;
 }
 
 function reload() {
@@ -72,10 +57,13 @@ function reload() {
 			let tbody = $("#tbody");
 			tbody.empty();
 			for (var i = 0; i < data.length; i++) {
+				let sexText = femaleStr;
+				if(data[i]['Sex']) sexText = maleStr;
 				tbody.append(`<tr>
 						<td class="id">${data[i]['Id']}</td>
-						<td class="xfirstname">${data[i]['FirstName']}</td>
-						<td class="xlastname">${data[i]['LastName']}</td>
+						<td class="xfirstname">${data[i]['Name']}</td>
+						<td class="xcolor">${data[i]['Color']}</td>
+						<td class="xsex">${sexText}</td>
 						<td class="xbirthdate">${data[i]['BirthDate'].substr(0, 10)}</td>
 						<td class="xedit"><button class="edit btn btn-block btn-warning">Edytuj</button></td>
 						<td><button class="delete btn btn-block btn-danger">Usuń</button></td>
@@ -101,7 +89,16 @@ function editModal(ctx) {
 	$("#input-id").val(id);
 	$("#input-id").prop('disabled', true);
 	$("#input-first-name").val(jqctx.parents("tr").children("td.xfirstname").text());
-	$("#input-last-name").val(jqctx.parents("tr").children("td.xlastname").text());
+	$("#input-color").val(jqctx.parents("tr").children("td.xcolor").text());
+	sexStr = jqctx.parents("tr").children("td.xsex").text();
+	if(sexStr == maleStr){
+		$("#input-sex-male").prop("checked", true);
+		$("#input-sex-female").prop("checked", false);
+	}
+	else{
+		$("#input-sex-female").prop("checked", true);
+		$("#input-sex-male").prop("checked", false);
+	}
 	$("#input-birth-date").val(jqctx.parents("tr").children("td.xbirthdate").text());
 	$("#group-id").show();
 	$("#data-modal").modal("show");
@@ -136,13 +133,15 @@ function dataModalSend() {
 	if(validateInputFields()){
 		let id = $("#input-id").val();
 		let firstName = $("#input-first-name").val();
-		let lastName = $("#input-last-name").val();
+		let color = $("#input-color").val();
+		let sex = $("#input-sex-male").is(':checked');
 		let birthDate = $("#input-birth-date").val();
 		let reqUrl = getGlobalUrl();
 		let reqType = 'POST'
 		let reqObj = {
-			FirstName: firstName,
-			LastName: lastName,
+			Name: firstName,
+			Color: color,
+			Sex: sex,
 			BirthDate: birthDate,
 		}
 		if (id != "") {

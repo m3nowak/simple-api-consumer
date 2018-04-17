@@ -19,7 +19,8 @@
                         <tr>
                             <th>id</th>
                             <th>imie</th>
-                            <th>nazwisko</th>
+                            <th>kolor</th>
+							<th>płeć</th>
 							<th>data urodzenia</th>
                             <th>edytuj</th>
                             <th>usuń</th>
@@ -60,9 +61,13 @@
                         <input type="text" class="form-control" id="input-first-name" />
                     </div>
                     <div class="form-group">
-                        <label for="input-last-name">Nazwisko:</label>
-                        <input type="text" class="form-control" id="input-last-name" />
+                        <label for="input-color">Kolor:</label>
+                        <input type="text" class="form-control" id="input-color" />
                     </div>
+					<div id="input-sex-parent">
+						<label class="radio-inline"><input id="input-sex-male" type="radio" name="input-sex">Kocur</label>
+						<label class="radio-inline"><input id="input-sex-female" type="radio" name="input-sex">Kotka</label>
+					</div>
 					<div class="form-group">
                         <label for="input-birth-date">Data urodzenia:</label>
                         <input type="text" class="form-control" id="input-birth-date" />
