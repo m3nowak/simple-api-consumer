@@ -37,30 +37,6 @@ function validateInputFields(){
 	return true;
 }
 
-function remove(ctx) {
-	let idRem = $(ctx).parents("tr").children("td.id").text();
-	$.ajax({
-		type: 'DELETE',
-		url: getGlobalUrl()+idRem,
-		contentType: "application/json",
-		dataType: 'json',
-		success: {
-			202: function () { console.log("Success!"); }
-		}
-	});
-}
-function edit(ctx) {
-	let row = $(ctx).parents("tr");
-	let cFN = row.children("td.xfirstname").text();
-	let cLN = row.children("td.xlastname").text();
-	row.children("td.xfirstname").empty();
-	row.children("td.xfirstname").append(`<input type="text">${cFN}</input>`);
-	row.children("td.xlastname").empty();
-	row.children("td.xlastname").append(`<input type="text">${cLN}</input>`);
-	row.children("td.xedit").empty();
-	row.children("td.xedit").append(`<button onclick="editfin(this)">Zatwierdź</button>`);
-}
-
 function editfin(ctx) {
 	if(validateInputFields()){
 		let row = $(ctx).parents("tr");
